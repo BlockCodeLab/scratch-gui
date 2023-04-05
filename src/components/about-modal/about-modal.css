@@ -1,0 +1,58 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+
+.content {
+    width: 480px;
+}
+
+.header {
+    background-color: $motion-primary;
+}
+
+.head-image {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: $motion-primary;
+    margin-top: -2rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+}
+
+.head-image img {
+    height: 180px;
+}
+
+.body {
+    background: $motion-primary;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: $menu-bar-standard-font-size;
+    background-color: $ui-white;
+    color: $text-primary;
+    padding-bottom: 2rem;
+}
+
+.version-label {
+    min-width: 100px;
+    padding-right: 0.5rem;
+}
+
+.version-info {
+    min-width: 70px;
+    text-align: right;
+}
+
+.button {
+    height: $menu-bar-button-size;
+    margin-top: 1.5rem;
+    color: $ui-white;
+}
+
+.centered-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 0.5rem;
+}

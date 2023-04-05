@@ -10,6 +10,7 @@ import tabStyles from 'react-tabs/style/react-tabs.css';
 import VM from 'scratch-vm';
 import Renderer from 'scratch-render';
 
+import AboutModal from '../../containers/about-modal.jsx';
 import Blocks from '../../containers/blocks.jsx';
 import CostumeTab from '../../containers/costume-tab.jsx';
 import TargetPane from '../../containers/target-pane.jsx';
@@ -54,6 +55,7 @@ let isRendererSupported = null;
 
 const GUIComponent = props => {
     const {
+        aboutModalVisible,
         accountNavOpen,
         activeTabIndex,
         alertsVisible,
@@ -182,6 +184,9 @@ const GUIComponent = props => {
                 {isRendererSupported ? null : (
                     <WebGlModal isRtl={isRtl} />
                 )}
+                {aboutModalVisible ? (
+                    <AboutModal isRtl={isRtl} />
+                ) : null}
                 {tipsLibraryVisible ? (
                     <TipsLibrary />
                 ) : null}

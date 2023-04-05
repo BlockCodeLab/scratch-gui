@@ -29,7 +29,10 @@ import DeletionRestorer from '../../containers/deletion-restorer.jsx';
 import TurboMode from '../../containers/turbo-mode.jsx';
 import MenuBarHOC from '../../containers/menu-bar-hoc.jsx';
 
-import {openTipsLibrary} from '../../reducers/modals';
+import {
+    openAboutModal,
+    openTipsLibrary
+} from '../../reducers/modals';
 import {setPlayer} from '../../reducers/mode';
 import {
     isTimeTravel220022BC,
@@ -361,9 +364,9 @@ class MenuBar extends React.Component {
                     onRequestClose={this.props.onRequestCloseAbout}
                 >
                     {
-                        onClickAbout.map(itemProps => (
+                        onClickAbout.map((itemProps, key) => (
                             <MenuItem
-                                key={itemProps.title}
+                                key={key}
                                 isRtl={this.props.isRtl}
                                 onClick={this.wrapAboutMenuCallback(itemProps.onClick)}
                             >
@@ -377,7 +380,11 @@ class MenuBar extends React.Component {
     }
     wrapAboutMenuCallback (callback) {
         return () => {
-            callback();
+            if (typeof callback === 'function') {
+                callback();
+            } else if (callback === 'about') {
+                this.props.onOpenAboutModal();
+            }
             this.props.onRequestCloseAbout();
         };
     }
@@ -907,6 +914,7 @@ MenuBar.propTypes = {
     onClickSave: PropTypes.func,
     onClickSaveAsCopy: PropTypes.func,
     onLogOut: PropTypes.func,
+    onOpenAboutModal: PropTypes.func,
     onOpenRegistration: PropTypes.func,
     onOpenTipLibrary: PropTypes.func,
     onProjectTelemetryEvent: PropTypes.func,
@@ -968,6 +976,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
     autoUpdateProject: () => dispatch(autoUpdateProject()),
+    onOpenAboutModal: () => dispatch(openAboutModal()),
     onOpenTipLibrary: () => dispatch(openTipsLibrary()),
     onClickAccount: () => dispatch(openAccountMenu()),
     onRequestCloseAccount: () => dispatch(closeAccountMenu()),

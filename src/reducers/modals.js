@@ -1,6 +1,7 @@
 const OPEN_MODAL = 'scratch-gui/modals/OPEN_MODAL';
 const CLOSE_MODAL = 'scratch-gui/modals/CLOSE_MODAL';
 
+const MODAL_ABOUT = 'aboutModal';
 const MODAL_BACKDROP_LIBRARY = 'backdropLibrary';
 const MODAL_COSTUME_LIBRARY = 'costumeLibrary';
 const MODAL_EXTENSION_LIBRARY = 'extensionLibrary';
@@ -13,6 +14,7 @@ const MODAL_CONNECTION = 'connectionModal';
 const MODAL_TIPS_LIBRARY = 'tipsLibrary';
 
 const initialState = {
+    [MODAL_ABOUT]: false,
     [MODAL_BACKDROP_LIBRARY]: false,
     [MODAL_COSTUME_LIBRARY]: false,
     [MODAL_EXTENSION_LIBRARY]: false,
@@ -52,6 +54,9 @@ const closeModal = function (modal) {
         modal: modal
     };
 };
+const openAboutModal = function () {
+    return openModal(MODAL_ABOUT);
+};
 const openBackdropLibrary = function () {
     return openModal(MODAL_BACKDROP_LIBRARY);
 };
@@ -81,6 +86,9 @@ const openConnectionModal = function () {
 };
 const openTipsLibrary = function () {
     return openModal(MODAL_TIPS_LIBRARY);
+};
+const closeAboutModal = function () {
+    return closeModal(MODAL_ABOUT);
 };
 const closeBackdropLibrary = function () {
     return closeModal(MODAL_BACKDROP_LIBRARY);
@@ -115,6 +123,7 @@ const closeConnectionModal = function () {
 export {
     reducer as default,
     initialState as modalsInitialState,
+    openAboutModal,
     openBackdropLibrary,
     openCostumeLibrary,
     openExtensionLibrary,
@@ -125,6 +134,7 @@ export {
     openTelemetryModal,
     openTipsLibrary,
     openConnectionModal,
+    closeAboutModal,
     closeBackdropLibrary,
     closeCostumeLibrary,
     closeExtensionLibrary,

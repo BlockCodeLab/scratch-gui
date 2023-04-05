@@ -1,0 +1,9 @@
+@import "../../css/colors.css";
+
+.sponsor-button {
+    background: $control-primary;
+}
+
+.sponsor-button-icon {
+    height: 1.25rem;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {compose} from 'redux';
+import {FormattedMessage} from 'react-intl';
 
 import AppStateHOC from '../lib/app-state-hoc.jsx';
 import GUI from '../containers/gui.jsx';
@@ -22,6 +23,39 @@ const handleTelemetryModalOptIn = () => {
 const handleTelemetryModalOptOut = () => {
     log('User opted out of telemetry');
 };
+
+const onClickGitHub = () => {
+    window.open('https://github.com/BlockCodeLab/scratch-gui', '_blank');
+};
+
+const onClickIssues = () => {
+    window.open('https://github.com/BlockCodeLab/scratch-gui/issues/new', '_blank');
+};
+
+const onClickAbout = [
+    {
+        title: 'GitHub',
+        onClick: onClickGitHub
+    },
+    {
+        title: (
+            <FormattedMessage
+                defaultMessage="Report issue"
+                id="gui.aboutMenu.issue"
+            />
+        ),
+        onClick: onClickIssues
+    },
+    {
+        title: (
+            <FormattedMessage
+                defaultMessage="About..."
+                id="gui.aboutMenu.about"
+            />
+        ),
+        onClick: 'about'
+    }
+];
 
 /*
  * Render the GUI playground. This is a separate function because importing anything
@@ -76,9 +110,9 @@ export default appTarget => {
             <WrappedGui
                 canEditTitle
                 backpackVisible
-                showComingSoon
                 backpackHost={backpackHost}
                 canSave={false}
+                onClickAbout={onClickAbout}
                 onClickLogo={onClickLogo}
             />,
         appTarget);
