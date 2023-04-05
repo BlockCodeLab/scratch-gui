@@ -37,10 +37,15 @@
     background-color: $ui-black-transparent;
 }
 
+.menu-item.active:last-child,
+.menu-item:last-child:hover {
+    border-radius: 0 0 8px 8px;
+}
+
 .menu-item.hoverable {
     cursor: pointer;
 }
 
-.menu-section {
+.menu-section:not(:first-child) {
     border-top: 1px solid $ui-black-transparent;
 }

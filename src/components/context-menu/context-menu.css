@@ -33,6 +33,10 @@
     border-top: 1px solid $ui-black-transparent;
 }
 
+.menu-item-bordered:first-child {
+    border-top: 0;
+}
+
 .menu-item-danger:hover {
     background: $error-primary;
 }

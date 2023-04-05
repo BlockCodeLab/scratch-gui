@@ -454,7 +454,10 @@ class MenuBar extends React.Component {
                             />
                         </div>
                         {(this.props.canChangeLanguage) && (<div
-                            className={classNames(styles.menuBarItem, styles.hoverable, styles.languageMenu)}
+                            className={classNames(styles.menuBarItem, styles.hoverable, styles.languageMenu, {
+                                [styles.active]: this.props.languageMenuOpen
+                            })}
+                            onMouseUp={this.props.onClickLanguage}
                         >
                             <div>
                                 <img
@@ -466,7 +469,17 @@ class MenuBar extends React.Component {
                                     src={dropdownCaret}
                                 />
                             </div>
-                            <LanguageSelector label={this.props.intl.formatMessage(ariaMessages.language)} />
+                            <MenuBarMenu
+                                className={classNames(styles.menuBarMenu)}
+                                open={this.props.languageMenuOpen}
+                                place={this.props.isRtl ? 'left' : 'right'}
+                                onRequestClose={this.props.onRequestCloseLanguage}
+                            >
+                                <LanguageSelector
+                                    label={this.props.intl.formatMessage(ariaMessages.language)}
+                                    isRtl={this.props.isRtl}
+                                />
+                            </MenuBarMenu>
                         </div>)}
                         {(this.props.canManageFiles) && (
                             <div
