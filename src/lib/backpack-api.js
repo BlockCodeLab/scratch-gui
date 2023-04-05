@@ -100,3 +100,9 @@ export {
     fetchCode,
     fetchSprite
 };
+
+export default {
+    getBackpackContents,
+    saveBackpackObject,
+    deleteBackpackObject
+};

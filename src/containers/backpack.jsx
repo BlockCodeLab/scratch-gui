@@ -2,15 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import bindAll from 'lodash.bindall';
 import BackpackComponent from '../components/backpack/backpack.jsx';
-import {
-    getBackpackContents,
-    saveBackpackObject,
-    deleteBackpackObject,
+import backpackApi, {
     soundPayload,
     costumePayload,
     spritePayload,
     codePayload
 } from '../lib/backpack-api';
+import backpackLocal from '../lib/backpack-storage';
 import DragConstants from '../lib/drag-constants';
 import DropAreaHOC from '../lib/drop-area-hoc.jsx';
 
@@ -102,6 +100,13 @@ class Backpack extends React.Component {
         }
         if (!payloader) return;
 
+        const saveBackpackObject = (
+            this.props.host &&
+            this.props.token &&
+            this.props.username
+        ) ? backpackApi.saveBackpackObject :
+            backpackLocal.saveBackpackObject;
+
         // Creating the payload is async, so set loading before starting
         this.setState({loading: true}, () => {
             payloader(dragInfo.payload, this.props.vm)
@@ -137,6 +142,13 @@ class Backpack extends React.Component {
         });
     }
     handleDelete (id) {
+        const deleteBackpackObject = (
+            this.props.host &&
+            this.props.token &&
+            this.props.username
+        ) ? backpackApi.deleteBackpackObject :
+            backpackLocal.deleteBackpackObject;
+
         this.setState({loading: true}, () => {
             deleteBackpackObject({
                 host: this.props.host,
@@ -157,28 +169,33 @@ class Backpack extends React.Component {
         });
     }
     getContents () {
-        if (this.props.token && this.props.username) {
-            this.setState({loading: true, error: false}, () => {
-                getBackpackContents({
-                    host: this.props.host,
-                    token: this.props.token,
-                    username: this.props.username,
-                    offset: this.state.contents.length,
-                    limit: this.state.itemsPerPage
-                })
-                    .then(contents => {
-                        this.setState({
-                            contents: this.state.contents.concat(contents),
-                            moreToLoad: contents.length === this.state.itemsPerPage,
-                            loading: false
-                        });
-                    })
-                    .catch(error => {
-                        this.setState({error: true, loading: false});
-                        throw error;
+        const getBackpackContents = (
+            this.props.host &&
+            this.props.token &&
+            this.props.username
+        ) ? backpackApi.getBackpackContents :
+            backpackLocal.getBackpackContents;
+
+        this.setState({loading: true, error: false}, () => {
+            getBackpackContents({
+                host: this.props.host,
+                token: this.props.token,
+                username: this.props.username,
+                offset: this.state.contents.length,
+                limit: this.state.itemsPerPage
+            })
+                .then(contents => {
+                    this.setState({
+                        contents: this.state.contents.concat(contents),
+                        moreToLoad: contents.length === this.state.itemsPerPage,
+                        loading: false
                     });
-            });
-        }
+                })
+                .catch(error => {
+                    this.setState({error: true, loading: false});
+                    throw error;
+                });
+        });
     }
     handleBlockDragUpdate (isOutsideWorkspace) {
         this.setState({
@@ -229,7 +246,7 @@ class Backpack extends React.Component {
                 onMore={this.handleMore}
                 onMouseEnter={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
-                onToggle={this.props.host ? this.handleToggle : null}
+                onToggle={this.handleToggle}
             />
         );
     }
