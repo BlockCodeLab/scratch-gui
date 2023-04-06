@@ -441,7 +441,9 @@ class MenuBar extends React.Component {
             >
                 <div className={styles.mainMenu}>
                     <div className={styles.fileGroup}>
-                        <div className={classNames(styles.menuBarItem)}>
+                        {(this.props.onClickLogo) && (<div
+                            className={classNames(styles.menuBarItem)}
+                        >
                             <img
                                 id="logo_img"
                                 alt="Scratch"
@@ -452,7 +454,7 @@ class MenuBar extends React.Component {
                                 src={this.props.logo}
                                 onClick={this.props.onClickLogo}
                             />
-                        </div>
+                        </div>)}
                         {(this.props.canChangeLanguage) && (<div
                             className={classNames(styles.menuBarItem, styles.hoverable, styles.languageMenu, {
                                 [styles.active]: this.props.languageMenuOpen
