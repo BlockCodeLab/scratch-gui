@@ -65,6 +65,7 @@
 }
 
 .blocks :global(.blocklyFlyout) {
+    padding-right: 2px;
     border-right: 1px solid $ui-black-transparent;
     box-sizing: content-box;
 }
@@ -74,6 +75,29 @@
     border-left: 1px solid $ui-black-transparent;
 }
 
+.blocks :global(.blocklyFlyout:hover) {
+    overflow: unset;
+}
+
+.blocks :global(.blocklyFlyout) :global(.blocklyWorkspace) {
+    clip-path: none;
+}
+
+.blocks [style="overflow: visible;"] :global(.blocklyFlyout:hover) {
+    overflow: hidden;
+}
+
+.blocks :global(.blocklyFlyoutScrollbar) {
+    margin-left: 6px;
+}
+
+.blocks :global(.blocklyMainWorkspaceScrollbar.blocklyScrollbarHorizontal) {
+    margin-left: 2px;
+}
+
+.blocks :global(.blocklyMainWorkspaceScrollbar.blocklyScrollbarVertical) {
+    margin-top: 2px;
+}
 
 .blocks :global(.blocklyBlockDragSurface) {
     /*
