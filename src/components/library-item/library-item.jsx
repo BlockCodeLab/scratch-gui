@@ -35,6 +35,14 @@ class LibraryItemComponent extends React.PureComponent {
                                 id="gui.extensionLibrary.comingSoon"
                             />
                         </div>
+                    ) : this.props.preview ? (
+                        <div className={styles.previewText}>
+                            <FormattedMessage
+                                defaultMessage="Preview"
+                                description="Label for extensions that are not yet released"
+                                id="gui.extensionLibrary.preview"
+                            />
+                        </div>
                     ) : null}
                     <img
                         className={styles.featuredImage}
@@ -175,6 +183,7 @@ LibraryItemComponent.propTypes = {
     onMouseLeave: PropTypes.func.isRequired,
     onPlay: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
+    preview: PropTypes.bool,
     showPlayButton: PropTypes.bool
 };
 
