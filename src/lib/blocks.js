@@ -1,3 +1,5 @@
+import FieldMatrix from './blocks/field-matrix';
+
 /**
  * Connect scratch blocks with the vm
  * @param {VirtualMachine} vm - The scratch vm
@@ -5,7 +7,16 @@
  * @return {ScratchBlocks} ScratchBlocks connected with the vm
  */
 export default function (vm, useCatBlocks) {
-    const ScratchBlocks = useCatBlocks ? require('cat-blocks') : require('scratch-blocks');
+    const ScratchBlocks = Object.assign(
+        useCatBlocks ? require('cat-blocks') : require('scratch-blocks'),
+        /**
+         * Extendeds blocks.
+         */
+        {
+            FieldMatrix
+        }
+    );
+
     const jsonForMenuBlock = function (name, menuOptionsFn, colors, start) {
         return {
             message0: '%1',
