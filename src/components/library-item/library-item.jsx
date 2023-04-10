@@ -9,6 +9,7 @@ import classNames from 'classnames';
 
 import bluetoothIconURL from './bluetooth.svg';
 import internetConnectionIconURL from './internet-connection.svg';
+import usbConnectionIconURL from './usb-connection.svg';
 
 /* eslint-disable react/prefer-stateless-function */
 class LibraryItemComponent extends React.PureComponent {
@@ -69,27 +70,33 @@ class LibraryItemComponent extends React.PureComponent {
                 {this.props.bluetoothRequired || this.props.internetConnectionRequired || this.props.collaborator ? (
                     <div className={styles.featuredExtensionMetadata}>
                         <div className={styles.featuredExtensionRequirement}>
-                            {this.props.bluetoothRequired || this.props.internetConnectionRequired ? (
-                                <div>
+                            {(
+                                this.props.bluetoothRequired ||
+                                this.props.internetConnectionRequired ||
+                                this.props.usbConnectionRequired) ? (
                                     <div>
-                                        <FormattedMessage
-                                            defaultMessage="Requires"
-                                            description="Label for extension hardware requirements"
-                                            id="gui.extensionLibrary.requires"
-                                        />
+                                        <div>
+                                            <FormattedMessage
+                                                defaultMessage="Requires"
+                                                description="Label for extension hardware requirements"
+                                                id="gui.extensionLibrary.requires"
+                                            />
+                                        </div>
+                                        <div
+                                            className={styles.featuredExtensionMetadataDetail}
+                                        >
+                                            {this.props.bluetoothRequired ? (
+                                                <img src={bluetoothIconURL} />
+                                            ) : null}
+                                            {this.props.internetConnectionRequired ? (
+                                                <img src={internetConnectionIconURL} />
+                                            ) : null}
+                                            {this.props.usbConnectionRequired ? (
+                                                <img src={usbConnectionIconURL} />
+                                            ) : null}
+                                        </div>
                                     </div>
-                                    <div
-                                        className={styles.featuredExtensionMetadataDetail}
-                                    >
-                                        {this.props.bluetoothRequired ? (
-                                            <img src={bluetoothIconURL} />
-                                        ) : null}
-                                        {this.props.internetConnectionRequired ? (
-                                            <img src={internetConnectionIconURL} />
-                                        ) : null}
-                                    </div>
-                                </div>
-                            ) : null}
+                                ) : null}
                         </div>
                         <div className={styles.featuredExtensionCollaboration}>
                             {this.props.collaborator ? (
@@ -184,7 +191,8 @@ LibraryItemComponent.propTypes = {
     onPlay: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
     preview: PropTypes.bool,
-    showPlayButton: PropTypes.bool
+    showPlayButton: PropTypes.bool,
+    usbConnectionRequired: PropTypes.bool
 };
 
 LibraryItemComponent.defaultProps = {

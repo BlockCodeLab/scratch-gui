@@ -228,6 +228,7 @@ class LibraryComponent extends React.Component {
                             name={dataItem.name}
                             preview={dataItem.preview}
                             showPlayButton={this.props.showPlayButton}
+                            usbConnectionRequired={dataItem.usbConnectionRequired}
                             onMouseEnter={this.handleMouseEnter}
                             onMouseLeave={this.handleMouseLeave}
                             onSelect={this.handleSelect}

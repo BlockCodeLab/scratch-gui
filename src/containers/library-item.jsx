@@ -127,6 +127,7 @@ class LibraryItem extends React.PureComponent {
                 name={this.props.name}
                 preview={this.props.preview}
                 showPlayButton={this.props.showPlayButton}
+                usbConnectionRequired={this.props.usbConnectionRequired}
                 onBlur={this.handleBlur}
                 onClick={this.handleClick}
                 onFocus={this.handleFocus}
@@ -171,7 +172,8 @@ LibraryItem.propTypes = {
     onMouseLeave: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     preview: PropTypes.bool,
-    showPlayButton: PropTypes.bool
+    showPlayButton: PropTypes.bool,
+    usbConnectionRequired: PropTypes.bool
 };
 
 export default injectIntl(LibraryItem);
