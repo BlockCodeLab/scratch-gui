@@ -10,7 +10,11 @@ import {updateBlockDrag} from '../reducers/block-drag';
 import {updateMonitors} from '../reducers/monitors';
 import {setProjectChanged, setProjectUnchanged} from '../reducers/project-changed';
 import {setRunningState, setTurboState, setStartedState} from '../reducers/vm-status';
-import {showExtensionAlert} from '../reducers/alerts';
+import {
+    closeAlertWithId,
+    showExtensionAlert,
+    showStandardAlert
+} from '../reducers/alerts';
 import {updateMicIndicator} from '../reducers/mic-indicator';
 
 /*
@@ -46,7 +50,9 @@ const vmListenerHOC = function (WrappedComponent) {
             this.props.vm.on('PROJECT_START', this.props.onGreenFlag);
             this.props.vm.on('PERIPHERAL_CONNECTION_LOST_ERROR', this.props.onShowExtensionAlert);
             this.props.vm.on('MIC_LISTENING', this.props.onMicListeningUpdate);
-
+            this.props.vm.on('EXTENSION_IMPORTING', this.props.onExtensionImporting);
+            this.props.vm.on('EXTENSION_DATA_LOADING', this.props.onExtensionDataLoading);
+            this.props.vm.on('EXTENSION_DATA_DOWNLOADING', this.props.onExtensionDataDownloading);
         }
         componentDidMount () {
             if (this.props.attachKeyboardEvents) {
@@ -124,6 +130,9 @@ const vmListenerHOC = function (WrappedComponent) {
                 onGreenFlag,
                 onKeyDown,
                 onKeyUp,
+                onExtensionImporting,
+                onExtensionDataLoading,
+                onExtensionDataDownloading,
                 onMicListeningUpdate,
                 onMonitorsUpdate,
                 onTargetsUpdate,
@@ -147,6 +156,9 @@ const vmListenerHOC = function (WrappedComponent) {
         onGreenFlag: PropTypes.func,
         onKeyDown: PropTypes.func,
         onKeyUp: PropTypes.func,
+        onExtensionImporting: PropTypes.func.isRequired,
+        onExtensionDataLoading: PropTypes.func.isRequired,
+        onExtensionDataDownloading: PropTypes.func.isRequired,
         onMicListeningUpdate: PropTypes.func.isRequired,
         onMonitorsUpdate: PropTypes.func.isRequired,
         onProjectChanged: PropTypes.func.isRequired,
@@ -202,6 +214,27 @@ const vmListenerHOC = function (WrappedComponent) {
         },
         onMicListeningUpdate: listening => {
             dispatch(updateMicIndicator(listening));
+        },
+        onExtensionImporting: loading => {
+            if (loading) {
+                dispatch(showStandardAlert('imporingExtension'));
+            } else {
+                dispatch(closeAlertWithId('imporingExtension'));
+            }
+        },
+        onExtensionDataLoading: loading => {
+            if (loading) {
+                dispatch(showStandardAlert('loadingExtensionData'));
+            } else {
+                dispatch(closeAlertWithId('loadingExtensionData'));
+            }
+        },
+        onExtensionDataDownloading: loading => {
+            if (loading) {
+                dispatch(showStandardAlert('downloadingExtensionData'));
+            } else {
+                dispatch(closeAlertWithId('downloadingExtensionData'));
+            }
         }
     });
     return connect(

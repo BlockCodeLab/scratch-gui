@@ -4,7 +4,6 @@ import bindAll from 'lodash.bindall';
 import ConnectionModalComponent, {PHASES} from '../components/connection-modal/connection-modal.jsx';
 import VM from 'scratch-vm';
 import analytics from '../lib/analytics';
-import extensionData from '../lib/libraries/extensions/index.jsx';
 import {connect} from 'react-redux';
 import {closeConnectionModal} from '../reducers/modals';
 
@@ -21,7 +20,7 @@ class ConnectionModal extends React.Component {
             'handleHelp'
         ]);
         this.state = {
-            extension: extensionData.find(ext => ext.extensionId === props.extensionId),
+            extension: null,
             phase: props.vm.getPeripheralIsConnected(props.extensionId) ?
                 PHASES.connected : PHASES.scanning
         };
@@ -29,6 +28,14 @@ class ConnectionModal extends React.Component {
     componentDidMount () {
         this.props.vm.on('PERIPHERAL_CONNECTED', this.handleConnected);
         this.props.vm.on('PERIPHERAL_REQUEST_ERROR', this.handleError);
+
+        this.props.vm.extensionManager.fetchExtensionData(extensionData => {
+            this.setState({
+                extension: extensionData.find(ext => ext.extensionId === this.props.extensionId)
+            });
+        });
+
+        this.props.vm.scanForPeripheral(this.props.extensionId);
     }
     componentWillUnmount () {
         this.props.vm.removeListener('PERIPHERAL_CONNECTED', this.handleConnected);
@@ -85,6 +92,7 @@ class ConnectionModal extends React.Component {
                 label: this.props.extensionId
             });
         }
+        this.props.onCancel();
     }
     handleConnected () {
         this.setState({
@@ -95,6 +103,7 @@ class ConnectionModal extends React.Component {
             action: 'connected',
             label: this.props.extensionId
         });
+        this.props.onCancel();
     }
     handleHelp () {
         window.open(this.state.extension.helpLink, '_blank');

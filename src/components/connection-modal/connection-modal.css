@@ -2,15 +2,16 @@
 @import "../../css/units.css";
 
 .modal-content {
-    width: 480px;
+    border: 0;
+    margin: 0 auto;
 }
 
 .header {
-    background-color: $pen-primary;
+    background-color: $ui-transparent;
 }
 
 .body {
-    background: $ui-white;
+    background: $ui-transparent;
 }
 
 .label {
@@ -164,6 +165,8 @@
 
 .connection-tip-icon {
     position: absolute;
+    top: 50%;
+    translate: 0 -50%;
 }
 
 .bluetooth-connecting-icon {

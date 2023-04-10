@@ -4,7 +4,7 @@ import React from 'react';
 import VM from 'scratch-vm';
 import {defineMessages, injectIntl, intlShape} from 'react-intl';
 
-import extensionLibraryContent from '../lib/libraries/extensions/index.jsx';
+import extensionTags from '../lib/libraries/extension-tags';
 
 import LibraryComponent from '../components/library/library.jsx';
 import extensionIcon from '../components/action-menu/icon--sprite.svg';
@@ -28,6 +28,14 @@ class ExtensionLibrary extends React.PureComponent {
         bindAll(this, [
             'handleItemSelect'
         ]);
+        this.state = {
+            extensionLibraryContent: []
+        };
+    }
+    componentDidMount () {
+        this.props.vm.extensionManager.fetchExtensionData(extensionLibraryContent => {
+            this.setState({extensionLibraryContent});
+        });
     }
     handleItemSelect (item) {
         const id = item.extensionId;
@@ -37,25 +45,30 @@ class ExtensionLibrary extends React.PureComponent {
             url = prompt(this.props.intl.formatMessage(messages.extensionUrl));
         }
         if (id && !item.disabled) {
-            if (this.props.vm.extensionManager.isExtensionLoaded(url)) {
+            if (this.props.vm.extensionManager.isExtensionLoaded(id)) {
                 this.props.onCategorySelected(id);
             } else {
-                this.props.vm.extensionManager.loadExtensionURL(url).then(() => {
-                    this.props.onCategorySelected(id);
-                });
+                this.props.vm.emit('EXTENSION_IMPORTING', true);
+                this.props.vm.extensionManager.loadExtensionURL(url)
+                    .then(() => {
+                        this.props.onCategorySelected(id);
+                    })
+                    .finally(() => {
+                        this.props.vm.emit('EXTENSION_IMPORTING', false);
+                    });
             }
         }
     }
     render () {
-        const extensionLibraryThumbnailData = extensionLibraryContent.map(extension => ({
+        const extensionLibraryThumbnailData = this.state.extensionLibraryContent.map(extension => ({
             rawURL: extension.iconURL || extensionIcon,
             ...extension
         }));
         return (
             <LibraryComponent
                 data={extensionLibraryThumbnailData}
-                filterable={false}
                 id="extensionLibrary"
+                tags={extensionTags}
                 title={this.props.intl.formatMessage(messages.extensionTitle)}
                 visible={this.props.visible}
                 onItemSelected={this.handleItemSelect}

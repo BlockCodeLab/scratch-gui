@@ -212,6 +212,46 @@ const alerts = [
         ),
         iconSpinner: true,
         level: AlertLevels.SUCCESS
+    },
+    {
+        alertId: 'imporingExtension',
+        alertType: AlertTypes.STANDARD,
+        clearList: [],
+        content: (
+            <FormattedMessage
+                defaultMessage="Importing…"
+                description="Message indicating that project is in process of importing"
+                id="gui.alerts.importing"
+            />
+        ),
+        iconSpinner: true,
+        level: AlertLevels.SUCCESS
+    },
+    {
+        alertId: 'loadingExtensionData',
+        alertType: AlertTypes.STANDARD,
+        clearList: [],
+        content: (
+            <FormattedMessage
+                defaultMessage="Loading extension..."
+                id="gui.alerts.loadingExtensionData"
+            />
+        ),
+        iconSpinner: true,
+        level: AlertLevels.SUCCESS
+    },
+    {
+        alertId: 'loadingExtensionData',
+        alertType: AlertTypes.STANDARD,
+        clearList: [],
+        content: (
+            <FormattedMessage
+                defaultMessage="Downloading data..."
+                id="gui.alerts.downloadingExtensionData"
+            />
+        ),
+        iconSpinner: true,
+        level: AlertLevels.SUCCESS
     }
 ];
 
