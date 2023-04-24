@@ -141,15 +141,15 @@ export default defineMessages({
         description: 'Tag for filtering a library for sensing',
         id: 'gui.libraryTags.sensing'
     },
-    media: {
-        defaultMessage: 'Media',
-        description: 'Tag for filtering a library for media',
-        id: 'gui.libraryTags.media'
+    actuation: {
+        defaultMessage: 'Actuation',
+        description: 'Tag for filtering a library for actuation',
+        id: 'gui.libraryTags.actuation'
     },
-    kit: {
-        defaultMessage: 'Kit',
-        description: 'Tag for filtering a library for kit',
-        id: 'gui.libraryTags.kit'
+    graphics: {
+        defaultMessage: 'Graphics',
+        description: 'Tag for filtering a library for graphics',
+        id: 'gui.libraryTags.graphics'
     },
     robot: {
         defaultMessage: 'Robot',
