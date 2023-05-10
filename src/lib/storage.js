@@ -55,8 +55,8 @@ class Storage extends ScratchStorage {
             withCredentials: true
         };
     }
-    setAssetHost (assetHost) {
-        this.assetHost = '/static/library-files';
+    setAssetHost (/* assetHost */) {
+        this.assetHost = 'static/library-files';
     }
     getAssetGetConfig (asset) {
         return `${this.assetHost}/${asset.assetId}.${asset.dataFormat}`;
