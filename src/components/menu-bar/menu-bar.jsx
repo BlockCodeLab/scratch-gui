@@ -547,6 +547,18 @@ class MenuBar extends React.Component {
                                             </MenuItem>
                                         )}</SB3Downloader>
                                     </MenuSection>
+                                    {this.props.addonFileMenus.length > 0 ? (
+                                        <MenuSection>
+                                            {this.props.addonFileMenus.map(item => (
+                                                <MenuItem
+                                                    onClick={item.handleClick}
+                                                    key={item.id}
+                                                >
+                                                    {item.title}
+                                                </MenuItem>
+                                            ))}
+                                        </MenuSection>
+                                    ) : null}
                                 </MenuBarMenu>
                             </div>
                         )}
@@ -596,6 +608,18 @@ class MenuBar extends React.Component {
                                         </MenuItem>
                                     )}</TurboMode>
                                 </MenuSection>
+                                {this.props.addonEditMenus.length > 0 ? (
+                                    <MenuSection>
+                                        {this.props.addonEditMenus.map(item => (
+                                            <MenuItem
+                                                onClick={item.handleClick}
+                                                key={item.id}
+                                            >
+                                                {item.title}
+                                            </MenuItem>
+                                        ))}
+                                    </MenuSection>
+                                ) : null}
                             </MenuBarMenu>
 
                         </div>
@@ -870,9 +894,17 @@ class MenuBar extends React.Component {
     }
 }
 
+const menuItemPropTypes = {
+    id: PropTypes.string,
+    title: PropTypes.string,
+    onClick: PropTypes.func
+};
+
 MenuBar.propTypes = {
     aboutMenuOpen: PropTypes.bool,
     accountMenuOpen: PropTypes.bool,
+    addonEditMenus: PropTypes.arrayOf(PropTypes.shape(menuItemPropTypes)),
+    addonFileMenus: PropTypes.arrayOf(PropTypes.shape(menuItemPropTypes)),
     authorId: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     authorThumbnailUrl: PropTypes.string,
     authorUsername: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

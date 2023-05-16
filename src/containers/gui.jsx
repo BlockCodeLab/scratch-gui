@@ -1,3 +1,4 @@
+import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {compose} from 'redux';
@@ -41,10 +42,22 @@ import GUIComponent from '../components/gui/gui.jsx';
 import {setIsScratchDesktop} from '../lib/isScratchDesktop.js';
 
 class GUI extends React.Component {
+    constructor (props) {
+        super(props);
+        bindAll(this, [
+            'handleAddon'
+        ]);
+        this.state = {
+            addonTabs: [],
+            addonFileMenus: [],
+            addonEditMenus: []
+        };
+    }
     componentDidMount () {
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
+        this.props.vm.on('ADDON', this.handleAddon);
     }
     componentDidUpdate (prevProps) {
         if (this.props.projectId !== prevProps.projectId && this.props.projectId !== null) {
@@ -54,6 +67,31 @@ class GUI extends React.Component {
             // this only notifies container when a project changes from not yet loaded to loaded
             // At this time the project view in www doesn't need to know when a project is unloaded
             this.props.onProjectLoaded();
+        }
+    }
+    componentWillUnmount () {
+        this.props.vm.off('ADDON', this.handleAddon);
+    }
+    handleAddon (option) {
+        switch (option.type) {
+        case 'tab':
+            if (this.state.addonTabs.find(item => item.id === option.id)) return;
+            this.setState({
+                addonTabs: this.state.addonTabs.concat(option)
+            });
+            return;
+        case 'fileMenu':
+            if (this.state.addonFileMenus.find(item => item.id === option.id)) return;
+            this.setState({
+                addonFileMenus: this.state.addonFileMenus.concat(option)
+            });
+            return;
+        case 'editMenu':
+            if (this.state.addonEditMenus.find(item => item.id === option.id)) return;
+            this.setState({
+                addonEditMenus: this.state.addonEditMenus.concat(option)
+            });
+            return;
         }
     }
     render () {
@@ -86,6 +124,7 @@ class GUI extends React.Component {
             <GUIComponent
                 loading={fetchingProject || isLoading || loadingStateVisible}
                 {...componentProps}
+                {...this.state}
             >
                 {children}
             </GUIComponent>

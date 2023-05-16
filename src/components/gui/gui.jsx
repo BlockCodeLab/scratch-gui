@@ -11,6 +11,7 @@ import VM from 'scratch-vm';
 import Renderer from 'scratch-render';
 
 import AboutModal from '../../containers/about-modal.jsx';
+import AddonTab from '../../containers/addon-tab.jsx';
 import Blocks from '../../containers/blocks.jsx';
 import CostumeTab from '../../containers/costume-tab.jsx';
 import TargetPane from '../../containers/target-pane.jsx';
@@ -58,6 +59,9 @@ const GUIComponent = props => {
         aboutModalVisible,
         accountNavOpen,
         activeTabIndex,
+        addonEditMenus,
+        addonFileMenus,
+        addonTabs,
         alertsVisible,
         authorId,
         authorThumbnailUrl,
@@ -215,6 +219,8 @@ const GUIComponent = props => {
                 ) : null}
                 <MenuBar
                     accountNavOpen={accountNavOpen}
+                    addonEditMenus={addonEditMenus}
+                    addonFileMenus={addonFileMenus}
                     authorId={authorId}
                     authorThumbnailUrl={authorThumbnailUrl}
                     authorUsername={authorUsername}
@@ -304,6 +310,19 @@ const GUIComponent = props => {
                                             id="gui.gui.soundsTab"
                                         />
                                     </Tab>
+                                    {addonTabs.map(tab => (
+                                        <Tab
+                                            className={tabClassNames.tab}
+                                            onClick={onActivateSoundsTab}
+                                            key={tab.id}
+                                        >
+                                            <img
+                                                draggable={false}
+                                                src={tab.icon}
+                                            />
+                                            {tab.title}
+                                        </Tab>
+                                    ))}
                                 </TabList>
                                 <TabPanel className={tabClassNames.tabPanel}>
                                     <Box className={styles.blocksWrapper}>
@@ -342,6 +361,19 @@ const GUIComponent = props => {
                                 <TabPanel className={tabClassNames.tabPanel}>
                                     {soundsTabVisible ? <SoundTab vm={vm} /> : null}
                                 </TabPanel>
+                                {addonTabs.map((tabProps, index) => (
+                                    <TabPanel
+                                        className={tabClassNames.tabPanel}
+                                        key={index}
+                                    >
+                                        {activeTabIndex === (index + 3) ? (
+                                            <AddonTab
+                                                stageSize={stageSize}
+                                                {...tabProps}
+                                            />
+                                        ) : null}
+                                    </TabPanel>
+                                ))}
                             </Tabs>
                             {backpackVisible ? (
                                 <Backpack host={backpackHost} />
