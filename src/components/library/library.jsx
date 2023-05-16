@@ -211,6 +211,7 @@ class LibraryComponent extends React.Component {
                     {this.state.loaded ? this.getFilteredData().map((dataItem, index) => (
                         <LibraryItem
                             bluetoothRequired={dataItem.bluetoothRequired}
+                            circuitRequired={dataItem.circuitRequired}
                             collaborator={dataItem.collaborator}
                             description={dataItem.description}
                             disabled={dataItem.disabled}

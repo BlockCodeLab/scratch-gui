@@ -8,6 +8,7 @@ import styles from './library-item.css';
 import classNames from 'classnames';
 
 import bluetoothIconURL from './bluetooth.svg';
+import circuitIconURL from './circuit.svg';
 import internetConnectionIconURL from './internet-connection.svg';
 import usbConnectionIconURL from './usb-connection.svg';
 
@@ -72,6 +73,7 @@ class LibraryItemComponent extends React.PureComponent {
                         <div className={styles.featuredExtensionRequirement}>
                             {(
                                 this.props.bluetoothRequired ||
+                                this.props.circuitRequired ||
                                 this.props.internetConnectionRequired ||
                                 this.props.usbConnectionRequired) ? (
                                     <div>
@@ -87,6 +89,9 @@ class LibraryItemComponent extends React.PureComponent {
                                         >
                                             {this.props.bluetoothRequired ? (
                                                 <img src={bluetoothIconURL} />
+                                            ) : null}
+                                            {this.props.circuitRequired ? (
+                                                <img src={circuitIconURL} />
                                             ) : null}
                                             {this.props.internetConnectionRequired ? (
                                                 <img src={internetConnectionIconURL} />
@@ -165,6 +170,7 @@ class LibraryItemComponent extends React.PureComponent {
 
 LibraryItemComponent.propTypes = {
     bluetoothRequired: PropTypes.bool,
+    circuitRequired: PropTypes.bool,
     collaborator: PropTypes.string,
     description: PropTypes.oneOfType([
         PropTypes.string,

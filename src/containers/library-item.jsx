@@ -112,6 +112,7 @@ class LibraryItem extends React.PureComponent {
         return (
             <LibraryItemComponent
                 bluetoothRequired={this.props.bluetoothRequired}
+                circuitRequired={this.props.circuitRequired}
                 collaborator={this.props.collaborator}
                 description={this.props.description}
                 disabled={this.props.disabled}
@@ -143,6 +144,7 @@ class LibraryItem extends React.PureComponent {
 
 LibraryItem.propTypes = {
     bluetoothRequired: PropTypes.bool,
+    circuitRequired: PropTypes.bool,
     collaborator: PropTypes.string,
     description: PropTypes.oneOfType([
         PropTypes.string,
