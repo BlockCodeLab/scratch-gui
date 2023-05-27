@@ -21,9 +21,10 @@ import defineDynamicBlock from '../lib/define-dynamic-block';
 import {connect} from 'react-redux';
 import {updateToolbox} from '../reducers/toolbox';
 import {activateColorPicker} from '../reducers/color-picker';
-import {closeExtensionLibrary, openSoundRecorder, openConnectionModal} from '../reducers/modals';
+import {closeExtensionLibrary, openSoundRecorder, openConnectionModal, openBoardsModal} from '../reducers/modals';
 import {activateCustomProcedures, deactivateCustomProcedures} from '../reducers/custom-procedures';
 import {setConnectionModalExtensionId} from '../reducers/connection-modal';
+import {setBoardsModalExtensionId, setBoardsModalBoardsList} from '../reducers/boards-modal';
 import {updateMetrics} from '../reducers/workspace-metrics';
 import {isTimeTravel2020} from '../reducers/time-travel';
 
@@ -134,6 +135,20 @@ class Blocks extends React.Component {
                 window.open(docsURI, '_blank');
             } catch (e) {
                 log.warn('cannot open docs URI', e);
+            }
+        });
+        toolboxWorkspace.registerButtonCallback('SELECT_BOARD', block => {
+            const CLASS_PREFIX = 'boards-';
+            const svgGroup = block.svgGroup_;
+            const boardsClass = Array.from(svgGroup.classList).find(i => i.startsWith(CLASS_PREFIX));
+            if (!boardsClass) {
+                return;
+            }
+            try {
+                const info = JSON.parse(decodeURIComponent(boardsClass.substr(CLASS_PREFIX.length)));
+                this.props.onOpenBoardsModal(info);
+            } catch (e) {
+                log.warn('cannot select board', e);
             }
         });
 
@@ -573,6 +588,7 @@ class Blocks extends React.Component {
             isRtl,
             isVisible,
             onActivateColorPicker,
+            onOpenBoardsModal,
             onOpenConnectionModal,
             onOpenSoundRecorder,
             updateToolboxState,
@@ -638,6 +654,7 @@ Blocks.propTypes = {
     messages: PropTypes.objectOf(PropTypes.string),
     onActivateColorPicker: PropTypes.func,
     onActivateCustomProcedures: PropTypes.func,
+    onOpenBoardsModal: PropTypes.func,
     onOpenConnectionModal: PropTypes.func,
     onOpenSoundRecorder: PropTypes.func,
     onRequestCloseCustomProcedures: PropTypes.func,
@@ -726,6 +743,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     onActivateColorPicker: callback => dispatch(activateColorPicker(callback)),
     onActivateCustomProcedures: (data, callback) => dispatch(activateCustomProcedures(data, callback)),
+    onOpenBoardsModal: info => {
+        dispatch(setBoardsModalExtensionId(info.id));
+        dispatch(setBoardsModalBoardsList(info.boards));
+        dispatch(openBoardsModal());
+    },
     onOpenConnectionModal: id => {
         dispatch(setConnectionModalExtensionId(id));
         dispatch(openConnectionModal());

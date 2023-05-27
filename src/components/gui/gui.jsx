@@ -13,6 +13,7 @@ import Renderer from 'scratch-render';
 import AboutModal from '../../containers/about-modal.jsx';
 import AddonTab from '../../containers/addon-tab.jsx';
 import Blocks from '../../containers/blocks.jsx';
+import BoardsModal from '../../containers/boards-modal.jsx';
 import CostumeTab from '../../containers/costume-tab.jsx';
 import TargetPane from '../../containers/target-pane.jsx';
 import SoundTab from '../../containers/sound-tab.jsx';
@@ -72,6 +73,7 @@ const GUIComponent = props => {
         backpackVisible,
         blocksId,
         blocksTabVisible,
+        boardsModalVisible,
         cardsVisible,
         canChangeLanguage,
         canCreateNew,
@@ -215,6 +217,11 @@ const GUIComponent = props => {
                     <BackdropLibrary
                         vm={vm}
                         onRequestClose={onRequestCloseBackdropLibrary}
+                    />
+                ) : null}
+                {boardsModalVisible ? (
+                    <BoardsModal
+                        vm={vm}
                     />
                 ) : null}
                 <MenuBar
