@@ -51,7 +51,9 @@ class ExtensionLibrary extends React.PureComponent {
                 this.props.vm.emit('EXTENSION_IMPORTING', true);
                 this.props.vm.extensionManager.loadExtensionURL(url)
                     .then(() => {
-                        this.props.onCategorySelected(id);
+                        setTimeout(() => {
+                            this.props.onCategorySelected(id);
+                        }, 100); // wait for extension initial
                     })
                     .finally(() => {
                         this.props.vm.emit('EXTENSION_IMPORTING', false);
