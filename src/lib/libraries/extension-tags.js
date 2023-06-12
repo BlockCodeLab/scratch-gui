@@ -2,7 +2,7 @@ import messages from './tag-messages.js';
 export default [
     {tag: 'stage', intlLabel: messages.stage},
     {tag: 'hardware', intlLabel: messages.hardware},
-    {tag: 'graphics', intlLabel: messages.graphics},
+    {tag: 'display', intlLabel: messages.display},
     {tag: 'sensing', intlLabel: messages.sensing},
     {tag: 'actuation', intlLabel: messages.actuation},
     {tag: 'robot', intlLabel: messages.robot},

@@ -146,10 +146,10 @@ export default defineMessages({
         description: 'Tag for filtering a library for actuation',
         id: 'gui.libraryTags.actuation'
     },
-    graphics: {
-        defaultMessage: 'Graphics',
-        description: 'Tag for filtering a library for graphics',
-        id: 'gui.libraryTags.graphics'
+    display: {
+        defaultMessage: 'Display',
+        description: 'Tag for filtering a library for display',
+        id: 'gui.libraryTags.display'
     },
     robot: {
         defaultMessage: 'Robot',
