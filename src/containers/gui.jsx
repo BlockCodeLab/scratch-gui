@@ -57,7 +57,7 @@ class GUI extends React.Component {
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
-        this.props.vm.on('ADDON', this.handleAddon);
+        this.props.vm.on('SETUP_ADDON', this.handleAddon);
     }
     componentDidUpdate (prevProps) {
         if (this.props.projectId !== prevProps.projectId && this.props.projectId !== null) {
@@ -70,7 +70,7 @@ class GUI extends React.Component {
         }
     }
     componentWillUnmount () {
-        this.props.vm.off('ADDON', this.handleAddon);
+        this.props.vm.off('SETUP_ADDON', this.handleAddon);
     }
     handleAddon (option) {
         switch (option.type) {
