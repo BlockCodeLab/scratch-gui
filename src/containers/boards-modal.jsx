@@ -45,6 +45,7 @@ class BoardsModal extends React.Component {
         this.props.onCancel();
     }
     handleReselect () {
+        this.props.vm.runtime.emit('REMOVE_BOARD', this.props.extensionId);
         this.props.onSelect(null);
         this.setState({
             phase: PHASES.selecting
