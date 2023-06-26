@@ -30,8 +30,12 @@ const vmListenerHOC = function (WrappedComponent) {
                 'handleKeyDown',
                 'handleKeyUp',
                 'handleProjectChanged',
+                'handleShowExtensionAlert',
                 'handleTargetsUpdate'
             ]);
+            this.state = {
+                extensionData: []
+            };
             // We have to start listening to the vm here rather than in
             // componentDidMount because the HOC mounts the wrapped component,
             // so the HOC componentDidMount triggers after the wrapped component
@@ -48,7 +52,7 @@ const vmListenerHOC = function (WrappedComponent) {
             this.props.vm.on('PROJECT_CHANGED', this.handleProjectChanged);
             this.props.vm.on('RUNTIME_STARTED', this.props.onRuntimeStarted);
             this.props.vm.on('PROJECT_START', this.props.onGreenFlag);
-            this.props.vm.on('PERIPHERAL_CONNECTION_LOST_ERROR', this.props.onShowExtensionAlert);
+            this.props.vm.on('PERIPHERAL_CONNECTION_LOST_ERROR', this.handleShowExtensionAlert);
             this.props.vm.on('MIC_LISTENING', this.props.onMicListeningUpdate);
             this.props.vm.on('EXTENSION_IMPORTING', this.props.onExtensionImporting);
             this.props.vm.on('EXTENSION_DATA_LOADING', this.props.onExtensionDataLoading);
@@ -60,6 +64,10 @@ const vmListenerHOC = function (WrappedComponent) {
                 document.addEventListener('keyup', this.handleKeyUp);
             }
             this.props.vm.postIOData('userData', {username: this.props.username});
+
+            this.props.vm.extensionManager.fetchExtensionData(extensionData => {
+                this.setState({extensionData});
+            });
         }
         componentDidUpdate (prevProps) {
             if (prevProps.username !== this.props.username) {
@@ -73,7 +81,7 @@ const vmListenerHOC = function (WrappedComponent) {
             }
         }
         componentWillUnmount () {
-            this.props.vm.removeListener('PERIPHERAL_CONNECTION_LOST_ERROR', this.props.onShowExtensionAlert);
+            this.props.vm.removeListener('PERIPHERAL_CONNECTION_LOST_ERROR', this.handleShowExtensionAlert);
             this.props.vm.removeListener('EXTENSION_IMPORTING', this.props.onExtensionImporting);
             this.props.vm.removeListener('EXTENSION_DATA_LOADING', this.props.onExtensionDataLoading);
             this.props.vm.removeListener('EXTENSION_DATA_DOWNLOADING', this.props.onExtensionDataDownloading);
@@ -86,6 +94,10 @@ const vmListenerHOC = function (WrappedComponent) {
             if (this.props.shouldUpdateProjectChanged && !this.props.projectChanged) {
                 this.props.onProjectChanged();
             }
+        }
+        handleShowExtensionAlert (data) {
+            data.extension = this.state.extensionData.find(ext => ext.extensionId === data.extensionId);
+            this.props.onShowExtensionAlert(data);
         }
         handleTargetsUpdate (data) {
             if (this.props.shouldUpdateTargets) {
